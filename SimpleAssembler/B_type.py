@@ -1,4 +1,4 @@
-def handle_B_instructions(opcode, words):
+def handle_B_instructions(opcode, words, labels):
     binary_instruction = ""
 
 

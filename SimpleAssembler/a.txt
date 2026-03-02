@@ -1,0 +1,6 @@
+add t1, t2, t3
+
+ a :b: add zero, zero, zero
+
+c:
+sub a0   , zero  , 5
