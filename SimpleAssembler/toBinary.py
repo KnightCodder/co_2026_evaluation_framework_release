@@ -5,8 +5,9 @@ from B_type import handle_B_instructions
 from U_type import handle_U_instructions
 from J_type import handle_J_instructions
 from re import split as resplit, match as rematch
-from registers import ABItoX, XtoBINARY
+from registers import ABItoX
 from instructions import INSTRUCTIONtoOPCODE, OPCODEStoINSTRUCTIONTYPE
+from errors import AssemblerError
 
 labels = dict()
 
@@ -25,8 +26,7 @@ def is_valid_label(label):
 def minification_and_labeling(lines):
     code = []
     pc = 0
-    line_number = 1
-    for line in lines:
+    for line_number, line in enumerate(lines, start=1):
         line = line.strip()
         if line:
             line = standard_line(resplit(r'[ ,]+', line.replace(':', ' : ').strip()))
@@ -36,48 +36,49 @@ def minification_and_labeling(lines):
                 if line[i] != ':':
                     continue
                 if i == 0 or not(is_valid_label(line[i-1])) or line[i-1] in labels.keys():
-                    print("error in line", line_number)
-                    return
+                    raise AssemblerError(line_no=line_number, message=f"Invalid Label '{line[i-1]}'")
                 labels[line[i-1]] = pc
                 line_wo_labels.pop()
                 line_wo_labels.pop()
                 
             if line_wo_labels:
-                code.append(line_wo_labels)
+                code.append((line_number, line_wo_labels))
                 pc += 4
-
-        line_number += 1
     return code
 
 def convertToBinary(lines):
-    print(labels)
+    # print(labels)
+    binary_lines = []
 
-    for i, words in enumerate(lines):
-        print(i, words)
+    for line_number, words in lines:
+        # print(line_number, words)
         if words[0] not in INSTRUCTIONtoOPCODE.keys():
-            print("error in line", i+1)
-            return
+            raise AssemblerError(line_no=line_number, message="Invalid instruction")
         
         opcode = INSTRUCTIONtoOPCODE[words[0]]
         type = OPCODEStoINSTRUCTIONTYPE[opcode]
 
         binary = ""
 
-        if type == "R":
-            binary = handle_R_instructions(opcode, words)
-        elif type == "I":
-            binary = handle_I_instructions(opcode, words)
-        elif type == "S":
-            binary = handle_S_instructions(opcode, words)
-        elif type == "B":
-            binary = handle_B_instructions(opcode, words, labels)
-        elif type == "U":
-            binary = handle_U_instructions(opcode, words)
-        elif type == "J":
-            binary = handle_J_instructions(opcode, words, labels)
-        else:
-            print("error in convertToBinary function")
-            return
+        try:
+            if type == "R":
+                binary = handle_R_instructions(opcode, words)
+            elif type == "I":
+                binary = handle_I_instructions(opcode, words)
+            elif type == "S":
+                binary = handle_S_instructions(opcode, words)
+            elif type == "B":
+                binary = handle_B_instructions(opcode, words, labels)
+            elif type == "U":
+                binary = handle_U_instructions(opcode, words)
+            elif type == "J":
+                binary = handle_J_instructions(opcode, words, labels)
+            else:
+                raise AssemblerError(message="convertToBinary function not working properly.")
+        except AssemblerError as e:
+            raise AssemblerError(line_no=line_number, message=e)
         
-        print(binary)
+        binary_lines.append(binary)
+    
+    return binary_lines
     

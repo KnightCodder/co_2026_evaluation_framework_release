@@ -4,3 +4,5 @@ add t1, t2, t3
 
 c:
 sub a0   , zero  , 5
+
+slt t1, t2, t3
