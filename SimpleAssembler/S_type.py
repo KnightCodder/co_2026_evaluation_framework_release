@@ -1,6 +1,6 @@
-from SimpleAssembler.instructions import INSTRUCTIONtoOPCODE
-from SimpleAssembler.utils import immediate_to_integer
-from SimpleAssembler.utils import decimal_to_binary
+from instructions import INSTRUCTIONtoOPCODE
+from utils import immediate_to_integer
+from utils import decimal_to_binary
 from errors import AssemblerError
 from registers import XtoBINARY
 
