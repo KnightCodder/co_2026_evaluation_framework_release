@@ -1,3 +1,5 @@
+from logging import exception
+
 from instructions import INSTRUCTIONtoFUNCT3, INSTRUCTIONtoOPCODE
 from utils import immediate_to_integer
 from utils import decimal_to_binary
@@ -12,8 +14,11 @@ def handle_S_instructions(opcode, words):
     if rs1 not in XtoBINARY.keys():
         raise AssemblerError(f"wrong source register name '{rs1}'")
     imm = words[2]
-    imm=immediate_to_integer(imm, 12)
-    imm=decimal_to_binary(imm, 12)
+    try: 
+        imm=immediate_to_integer(imm, 12)
+        imm=decimal_to_binary(imm, 12)
+    except exception as e:
+        raise AssemblerError(e)
     imm=str(imm)
     imm1=imm[0:7]
     imm2=imm[7:12]
