@@ -29,7 +29,7 @@ def minification_and_labeling(lines):
     for line_number, line in enumerate(lines, start=1):
         line = line.strip()
         if line:
-            line = standard_line(resplit(r'[ ,]+', line.replace(':', ' : ').strip()))
+            line = standard_line(resplit(r'[ ,()]+', line.replace(':', ' : ').strip()))
             line_wo_labels = []
             for i in range(len(line)):
                 line_wo_labels.append(line[i])
