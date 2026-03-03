@@ -1,4 +1,4 @@
-from instructions import INSTRUCTIONtoOPCODE
+from instructions import INSTRUCTIONtoFUNCT3, INSTRUCTIONtoOPCODE
 from utils import immediate_to_integer
 from utils import decimal_to_binary
 from errors import AssemblerError
@@ -18,11 +18,8 @@ def handle_S_instructions(opcode, words):
     imm1=imm[0:7]
     imm2=imm[7:12]
     rd = words[1]
+    func=INSTRUCTIONtoFUNCT3[instruction]
     if rd not in XtoBINARY.keys():
         raise AssemblerError(f"wrong destination register name '{rd}'")
-    if instruction == "sw":
-        instruction=INSTRUCTIONtoOPCODE["sw"]
-    else:
-        raise AssemblerError(f"wrong instruction name '{instruction}'")
-    binary_instruction =imm1+ XtoBINARY[rs1] + XtoBINARY[rd] + imm2 + instruction
+    binary_instruction = imm1+ XtoBINARY[rd] + XtoBINARY[rs1] +func+ imm2 + opcode
     return binary_instruction
