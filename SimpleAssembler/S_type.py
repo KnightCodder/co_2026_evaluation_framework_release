@@ -8,12 +8,10 @@ def handle_S_instructions(opcode, words):
 
     binary_instruction = ""
     instruction = words[0]
-    reg_imm=words[2].strip(")")
-    reg_imm=words[2].split("(")
-    rs1=reg_imm[1]
+    rs1=words[3]
     if rs1 not in XtoBINARY.keys():
         raise AssemblerError(f"wrong source register name '{rs1}'")
-    imm = reg_imm[0]
+    imm = words[2]
     imm=immediate_to_integer(imm, 12)
     imm=decimal_to_binary(imm, 12)
     imm=str(imm)
