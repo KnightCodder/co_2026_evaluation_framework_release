@@ -51,6 +51,7 @@ INSTRUCTIONtoFUNCT3 = {
     "bge": "101",
     "bltu": "110",
     "bgeu": "111",
+    "sw" : "010",
 }
 
 INSTRUCTIONTYPEtoINSTRUCTIONS = {
