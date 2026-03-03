@@ -43,3 +43,21 @@ INSTRUCTIONtoOPCODE = {
 
     "jal": "1101111",
 }
+
+INSTRUCTIONtoFUNCT3 = {
+    "beq": "000",
+    "bne": "001",
+    "blt": "100",
+    "bge": "101",
+    "bltu": "110",
+    "bgeu": "111",
+}
+
+INSTRUCTIONTYPEtoINSTRUCTIONS = {
+    "R": ("add", "sub", "sll", "slt", "sltu", "xor", "srl", "or", "and"),
+    "I": ("addi", "sltiu", "lw", "jalr"),
+    "S": ("sw",),
+    "B": ("beq", "bne", "blt", "bge", "bltu", "bgeu",),
+    "U": ("lui", "auipc",),
+    "J": ("jal",),
+}

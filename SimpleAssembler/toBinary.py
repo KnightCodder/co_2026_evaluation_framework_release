@@ -68,7 +68,7 @@ def convertToBinary(lines):
             elif type == "S":
                 binary = handle_S_instructions(opcode, words)
             elif type == "B":
-                binary = handle_B_instructions(opcode, words, labels)
+                binary = handle_B_instructions(opcode, words, pc, labels)
             elif type == "U":
                 binary = handle_U_instructions(opcode, words)
             elif type == "J":

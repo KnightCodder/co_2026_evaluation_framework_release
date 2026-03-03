@@ -1,10 +1,21 @@
-add t1, t2, t3
+start:
+add t0, zero, zero
 
- a :b: add zero, zero, zero
+beq t0, zero, forward_branch
 
-c:
-sub a0   , zero  , 5
+addi t0, t0, 1
 
-jal t2, b
+forward_branch:
+jal t1, backward_jump
 
-slt t1, t2, t3
+addi t2, t2, 5
+
+backward_jump:
+beq t1, zero, end
+
+jal t3, start
+
+end:
+slt t4, t0, t2
+
+jal t0, 1048572
