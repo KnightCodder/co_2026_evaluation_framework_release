@@ -42,7 +42,7 @@ def minification_and_labeling(lines):
                 line_wo_labels.pop()
                 
             if line_wo_labels:
-                code.append((line_number, line_wo_labels))
+                code.append((line_number, pc, line_wo_labels))
                 pc += 4
     return code
 
@@ -50,8 +50,8 @@ def convertToBinary(lines):
     # print(labels)
     binary_lines = []
 
-    for line_number, words in lines:
-        # print(line_number, words)
+    for line_number, pc, words in lines:
+        # print(line_number, pc, words)
         if words[0] not in INSTRUCTIONtoOPCODE.keys():
             raise AssemblerError(line_no=line_number, message="Invalid instruction")
         
@@ -72,7 +72,7 @@ def convertToBinary(lines):
             elif type == "U":
                 binary = handle_U_instructions(opcode, words)
             elif type == "J":
-                binary = handle_J_instructions(opcode, words, labels)
+                binary = handle_J_instructions(opcode, words, pc, labels)
             else:
                 raise AssemblerError(message="convertToBinary function not working properly.")
         except AssemblerError as e:
