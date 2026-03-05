@@ -6,15 +6,12 @@ def handle_R_instructions(opcode, words):
     binary_instruction = ""
     if len(words) != 4:
         raise AssemblerError("Invalid number of operands for R-type instruction")
-    rd = XtoBINARY[words[1]]
-    if rd not in XtoBINARY.keys():
-        raise AssemblerError(f"wrong destination register name '{words[1]}'")
-    r1 = XtoBINARY[words[2]]
-    if r1 not in XtoBINARY.keys():
-        raise AssemblerError(f"wrong source register name '{words[2]}'")
-    r2 = XtoBINARY[words[3]]
-    if r2 not in XtoBINARY.keys():
-        raise AssemblerError(f"wrong source register name '{words[3]}'")
+    try:
+        rd = XtoBINARY[words[1]]
+        r1 = XtoBINARY[words[2]]
+        r2 = XtoBINARY[words[3]]
+    except KeyError as e:
+        raise AssemblerError(f"Invalid register name: {e}")
     if words[0] == "add":
         binary_instruction = "0000000" + r2 + r1 +INSTRUCTIONtoFUNCT3['add'] +rd + opcode
     elif words[0] == "sub":
