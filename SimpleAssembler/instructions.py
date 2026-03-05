@@ -60,6 +60,7 @@ INSTRUCTIONtoFUNCT3 = {
     "xor":  "100",
     "srl":  "101",
     "or":   "110",
+    "and":  "111",
 }
 
 INSTRUCTIONTYPEtoINSTRUCTIONS = {
