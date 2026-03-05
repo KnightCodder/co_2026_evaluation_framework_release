@@ -52,6 +52,14 @@ INSTRUCTIONtoFUNCT3 = {
     "bltu": "110",
     "bgeu": "111",
     "sw" : "010",
+    "add":  "000",
+    "sub":  "000",
+    "sll":  "001",
+    "slt":  "010",
+    "sltu": "011",
+    "xor":  "100",
+    "srl":  "101",
+    "or":   "110",
 }
 
 INSTRUCTIONTYPEtoINSTRUCTIONS = {
