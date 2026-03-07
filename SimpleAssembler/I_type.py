@@ -28,15 +28,14 @@ def handle_I_instructions(opcode, words):
             raise AssemblerError(f"Invalid I-type instruction '{words[0]}'")
 
     elif words[0] == "lw":
-        if len(words) != 3:
+        if len(words) != 4:
             raise AssemblerError("Invalid number of operands for lw instruction")
         try:
             rd = XtoBINARY[words[1]]
-            last_term = words[2]
-            imm = last_term.split('(')[0]
+            imm = words[2]
             imm = immediate_to_integer(imm, 12)
             imm = decimal_to_binary(imm, 12)
-            rs1 = last_term.split('(')[1].replace(')', '')
+            rs1 = words[3]
             rs1 = XtoBINARY[rs1]
 
         except KeyError as e:
