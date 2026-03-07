@@ -61,6 +61,11 @@ INSTRUCTIONtoFUNCT3 = {
     "srl":  "101",
     "or":   "110",
     "and":  "111",
+
+    "lw": "010",
+    "addi": "000",
+    "sltiu": "011",
+    "jalr": "000",
 }
 
 INSTRUCTIONTYPEtoINSTRUCTIONS = {
