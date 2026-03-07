@@ -4,6 +4,10 @@ from utils import immediate_to_integer, decimal_to_binary
 
 def handle_U_instructions(opcode, words):
     binary_instruction = ""
+
+    if len(words) != 3:
+        raise AssemblerError("Invalid number of operands for R-type instruction")
+
     instruction = words[0]
     rd = words[1]
     registers_key = XtoBINARY.keys()

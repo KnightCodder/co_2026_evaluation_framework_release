@@ -7,8 +7,11 @@ from errors import AssemblerError
 from registers import XtoBINARY
 
 def handle_S_instructions(opcode, words):
-
     binary_instruction = ""
+
+    if len(words) != 4:
+        raise AssemblerError("Invalid number of operands for S-type instruction")
+
     instruction = words[0]
     rs1=words[3]
     if rs1 not in XtoBINARY.keys():

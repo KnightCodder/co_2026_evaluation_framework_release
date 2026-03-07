@@ -6,6 +6,9 @@ from utils import immediate_to_integer, decimal_to_binary
 def handle_B_instructions(opcode, words, PC, labels : dict):
     binary_instruction = ""
 
+    if len(words) != 4:
+        raise AssemblerError("Invalid number of operands for B-type instruction")
+
     instruction = words[0]
     rs1 = words[1]
     rs2 = words[2]
