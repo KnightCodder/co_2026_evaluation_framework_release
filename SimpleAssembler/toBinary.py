@@ -29,18 +29,18 @@ def minification_and_labeling(lines):
     for line_number, line in enumerate(lines, start=1):
         line = line.strip()
         if line:
-            line = standard_line(resplit(r'[ ,()]+', line.replace(':', ' : ').strip()))
+            line = standard_line(resplit(r'[ ,()]+', line.replace(':', ': ').strip()))
             line_wo_labels = []
             for i in range(len(line)):
                 if not line[i]:
                     continue
                 line_wo_labels.append(line[i])
-                if line[i] != ':':
+                if line[i][-1] != ':':
                     continue
-                if i == 0 or not(is_valid_label(line[i-1])) or line[i-1] in labels.keys():
-                    raise AssemblerError(line_no=line_number, message=f"Invalid Label '{line[i-1]}'")
-                labels[line[i-1]] = pc
-                line_wo_labels.pop()
+                label = line[i][:-1]
+                if not label or not(is_valid_label(label)) or label in labels.keys():
+                    raise AssemblerError(line_no=line_number, message=f"Invalid Label '{label}'")
+                labels[label] = pc
                 line_wo_labels.pop()
                 
             if line_wo_labels:
