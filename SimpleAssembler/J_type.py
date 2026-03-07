@@ -26,7 +26,7 @@ def handle_J_instructions(opcode, words, PC, labels : dict):
             raise AssemblerError(f"target PC '{PC+offset}' is not a multiple of 4, hence invalid.")
         
         try:
-            bin_offset = decimal_to_binary(offset // 2, 21)
+            bin_offset = decimal_to_binary(offset, 21)
         except Exception as e:
             raise AssemblerError(f'offset {e}')
         
