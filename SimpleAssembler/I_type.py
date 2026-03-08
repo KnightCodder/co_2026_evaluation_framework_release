@@ -18,6 +18,8 @@ def handle_I_instructions(opcode, words):
 
         except KeyError as e:
             raise AssemblerError(f"Invalid register name: {e}")
+        except Exception as e:
+            raise AssemblerError(e)
         if words[0] == "addi":
             binary_instruction = imm + rs1 + INSTRUCTIONtoFUNCT3['addi'] + rd + opcode
         elif words[0] == "sltiu":
@@ -40,6 +42,8 @@ def handle_I_instructions(opcode, words):
 
         except KeyError as e:
             raise AssemblerError(f"Invalid register name: {e}")
+        except Exception as e:
+            raise AssemblerError(e)
         
         binary_instruction = imm + rs1 + INSTRUCTIONtoFUNCT3['lw'] + rd + opcode
         
