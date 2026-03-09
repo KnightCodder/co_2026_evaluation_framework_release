@@ -1,24 +1,72 @@
-addi a0,zero,4
-addi t0,zero,0
-addi t5,zero,45
-addi sp,sp,-4
-loop:add t0,t0,t1
-addi t1,t1,1
-slt t2,t1,a0
-bne t2,zero,loop
-jal ra,double
-addi sp,sp,-4
-sw t0,0(sp)
-beq zero,zero,end
-double: add t0,t0,t0
-jalr zero,ra,-2048
-data_check: addi sp,sp,-4
-sw zero,2047(sp)
-lw t2,0(sp)
-add t3,t2,zero
-bne t3,zero,error
-end: addi sp,sp,-4
-sw t0,0(sp)
-beq zero,zero,40
-error: addi t4,zero,1
-beq zero,zero,end
+sub x31, x0, x31
+add x31, x31, x31
+
+sub x0, x0, x0
+
+add x1, x2, x3
+
+sub x10, x11, x12
+
+sll x5, x6, x7
+
+srl x8, x9, x10
+
+
+
+slt x14, x15, x16
+
+sltu x17, x18, x19
+
+xor x20, x21, x22
+
+or x23, x24, x25
+
+addi x1, x0, 1
+
+addi x1, x1, -1
+
+addi x31, x31, 2047
+
+addi x10, x11, -2048
+
+
+lw x1, 4(x2)
+
+
+
+sw x1, 0(x2)
+
+
+
+sw x0, 1024(x10)
+
+beq x1, x2, 0
+
+
+
+bltu x9, x10, -4096
+
+bgeu x11, x12, 2048
+lui x10, 0x00000
+
+lui x31, 0xFFFFF
+
+auipc x5, 0x7FFFF
+
+auipc x1, 0x00001
+jal x1, 0
+
+jal x0, 4
+
+jal x31, -4
+
+jal x5, 1048572
+
+jal x10, -1048576
+beq x0, x31, -2048
+and x26, x27, x28
+addi x1, x1, -1
+sw x31, -2048(x2)
+bne x1, x2, -4
+lui x10, 0x7FFFF
+jal x1, -4

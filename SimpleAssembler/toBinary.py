@@ -50,8 +50,9 @@ def minification_and_labeling(lines):
 
 def convertToBinary(lines):
     binary_lines = []
-
+    # print(labels)
     for line_number, pc, words in lines:
+        # print(line_number, pc, words)
         if words[0] not in INSTRUCTIONtoOPCODE.keys():
             raise AssemblerError(line_no=line_number, message="Invalid instruction")
         
