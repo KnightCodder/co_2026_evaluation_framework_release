@@ -31,7 +31,7 @@ def read_byte(address: int):
     else:
         return data_memory[adr]
     
-def read(address: int, bytes: int):
+def read_memory(address: int, bytes: int):
     res = 0
     for i in range(bytes-1, -1, -1):
         res <<= 8
@@ -54,7 +54,7 @@ def write_byte(address: int, value: int):
     else:
         data_memory[adr] = value
 
-def write(address: int, bytes: int, value: int):
+def write_memory(address: int, bytes: int, value: int):
     try:
         for adr in range(address, address+bytes):
             write_byte(adr, value & 0xFF)

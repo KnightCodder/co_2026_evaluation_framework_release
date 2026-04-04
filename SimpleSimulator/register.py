@@ -5,8 +5,6 @@ registers = [0] * 32
 registers[2] = 0x0000017C # stack pointer
 registers[3] = 0x00010000 # global pointer
 
-program_counter = 0
-
 def read_register(reg: int):
     if reg < 0 or reg > 31:
         raise SimulatorError("invalid register address")
