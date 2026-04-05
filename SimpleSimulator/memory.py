@@ -61,3 +61,43 @@ def write_memory(address: int, bytes: int, value: int):
             value >>= 8
     except SimulatorError as e:
         raise SimulatorError(e);
+
+def fill_program_memory(binary: list[str]):
+    address = 0
+    for bin in binary:
+        bin = bin.strip()
+        if (bin):
+            try:
+                ibin = int(bin, 2)
+            except ValueError:
+                raise SimulatorError("Invalaid instruction")
+            if address >= program_memory_size:
+                raise SimulatorError("instructions too large")
+            if ibin < 0 or ibin > 0xFFFFFFFF:
+                raise SimulatorError("invalid instruction")
+            
+            for i in range(4):
+                program_memory[address+i] = ibin & 0xFF
+                ibin >>= 8
+            address += 4
+
+def memory_to_str():
+    res = ""
+
+    adr = 0
+    for bin in program_memory:
+        res += f"0x{adr:08X}" + ":" + f"{bin:08b}" + "\n"
+        adr += 1
+
+    adr = 0x100
+    for bin in stack_memory:
+        res += f"0x{adr:08X}" + ":" + f"{bin:08b}" + "\n"
+        adr += 1
+
+    adr = 0x1000
+    for bin in data_memory:
+        res += f"0x{adr:08X}" + ":" + f"{bin:08b}" + "\n"
+        adr += 1
+
+    return res
+    

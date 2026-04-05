@@ -17,3 +17,22 @@ def write_register(reg: int, value: int):
         raise SimulatorError("invalid register value")
     if reg != 0:
         registers[reg] = value
+
+def registers_to_str():
+    res = ""
+    for register in registers:
+        res += " " + str(register)
+    return res
+
+def register_extract(instruction: int):
+    rd1 = 0
+    rd2 = 0
+    wd3 = 0
+
+
+
+    return {
+        "rd1" : rd1,
+        "rd2" : rd2,
+        "wd3" : wd3
+    }
