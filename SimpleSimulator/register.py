@@ -25,11 +25,9 @@ def registers_to_str():
     return res
 
 def register_extract(instruction: int):
-    rd1 = 0
-    rd2 = 0
-    wd3 = 0
-
-
+    rd2 = (instruction & 0x01F00000)>>20
+    rd1 = (instruction & 0x000F8000)>>15
+    wd3 = (instruction & 0x00000F80)>>7
 
     return {
         "rd1" : rd1,
