@@ -1,10 +1,12 @@
 from error import SimulatorError
+
 def extending_sign(element, bit):
     MSB = (element >> (bit - 1)) & 1
     if MSB:
         element -= (1 << bit)
     return element
-def Imm_Ext(inst: int, ImmSrc: int):
+
+def ImmExt(inst: int, ImmSrc: int):
     if ImmSrc == 0:
         sliding_bit = inst >> 20
         masked_bits = sliding_bit & 0xFFF
