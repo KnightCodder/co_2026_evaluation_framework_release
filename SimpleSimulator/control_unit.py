@@ -12,10 +12,6 @@ ALUSrc = 0
 ImmSrc = 0
 RegWrite = 0
 
-
-
-
-
 def decode_instruction(instruction: int):
     global opcode, funct3, funct7
     global PCsrc, ResultSrc, MemWrite, ALUControl, ALUSrc, ImmSrc, RegWrite

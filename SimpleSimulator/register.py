@@ -21,7 +21,7 @@ def write_register(reg: int, value: int):
 def registers_to_str():
     res = ""
     for register in registers:
-        res += " " + str(register)
+        res += f" 0b{register:032b}"
     return res
 
 def register_extract(instruction: int):

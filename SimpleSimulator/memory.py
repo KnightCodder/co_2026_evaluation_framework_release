@@ -84,20 +84,15 @@ def fill_program_memory(binary: list[str]):
 def memory_to_str():
     res = ""
 
-    adr = 0
-    for bin in program_memory:
-        res += f"0x{adr:08X}" + ":" + f"{bin:08b}" + "\n"
-        adr += 1
-
-    adr = 0x100
-    for bin in stack_memory:
-        res += f"0x{adr:08X}" + ":" + f"{bin:08b}" + "\n"
-        adr += 1
-
-    adr = 0x1000
-    for bin in data_memory:
-        res += f"0x{adr:08X}" + ":" + f"{bin:08b}" + "\n"
-        adr += 1
+    for i in range(0, data_memory_size, 4):
+        bin = data_memory[i]
+        bin <<= 8
+        bin |= data_memory[i+1]
+        bin <<= 8
+        bin |= data_memory[i+2]
+        bin <<= 8
+        bin |= data_memory[i+3]
+        res += f"0x{(0x1000+i):08X}" + ":" + f"0b{bin:032b}" + "\n"
 
     return res
     
