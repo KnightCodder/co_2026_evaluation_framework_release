@@ -76,7 +76,12 @@ try:
             if controls["RegWrite"]:
                 write_register(reg=register_file["wd3"], value=Result)
 
-            PCNext = PCTarget if controls["PCSrc"] else PCPlus4
+            if controls["PCSrc"]:
+                PCNext = PCTarget
+            elif controls["ImmSrc"] == 2:   # B-type instruction
+                PCNext = PCTarget if Zero else PCPlus4
+            else:
+                PCNext = PCPlus4
             PCjump(newPC=PCNext)
 
 
