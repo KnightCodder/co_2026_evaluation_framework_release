@@ -13,7 +13,7 @@ def read_register(reg: int):
 def write_register(reg: int, value: int):
     if reg < 0 or reg > 31:
         raise SimulatorError("invalid register address")
-    if value < 0 or value > 0xFFFFFFFE:
+    if value < 0 or value > 0xFFFFFFFF:
         raise SimulatorError("invalid register value")
     if reg != 0:
         registers[reg] = value

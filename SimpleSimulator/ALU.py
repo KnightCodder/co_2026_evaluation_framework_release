@@ -13,11 +13,13 @@ def ALU(SrcA: int, SrcB: int, ALUControl: int):
         b_sign=(SrcB & mask)-0x100000000 if(SrcB & 0x80000000) else(SrcB & mask)
         return 1 if a_sign<b_sign else 0
     elif ALUControl==0b0101: 
-        return 1 if (SrcA&mask)<(SrcB&mask) else 0
+        a = SrcA & 0xFFFFFFFF
+        b = SrcB & 0xFFFFFFFF
+        return 1 if a < b else 0
     elif ALUControl==0b0111: 
         return SrcA^SrcB
     elif ALUControl==0b1000: 
-        return (SrcA&mask)>>(SrcB&0x1F)
+        return ((SrcA & mask) >> (SrcB & 0x1F)) & mask
     elif ALUControl==0b0001: 
         return SrcA|SrcB
     elif ALUControl==0b0000: 

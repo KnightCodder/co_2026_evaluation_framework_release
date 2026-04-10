@@ -35,30 +35,30 @@ def decode_instruction(instruction: int):
 
         if funct3 == 0x0:
             if funct7 == 0x00:
-                ALUControl = 0b0010   # ADD
+                ALUControl = 0b0010
             elif funct7 == 0x20:
-                ALUControl = 0b0110   # SUB
+                ALUControl = 0b0110
 
         elif funct3 == 0x1:
-            ALUControl = 0b0011   # SLL
+            ALUControl = 0b0011
 
         elif funct3 == 0x2:
-            ALUControl = 0b0100   # SLT
+            ALUControl = 0b0100
 
         elif funct3 == 0x3:
-            ALUControl = 0b0101   # SLTU
+            ALUControl = 0b0101
 
         elif funct3 == 0x4:
-            ALUControl = 0b0111   # XOR
+            ALUControl = 0b0111
 
         elif funct3 == 0x5:
-            ALUControl = 0b1000   # SRL
+            ALUControl = 0b1000
 
         elif funct3 == 0x6:
-            ALUControl = 0b0001   # OR
+            ALUControl = 0b0001
 
         elif funct3 == 0x7:
-            ALUControl = 0b0000   # AND
+            ALUControl = 0b0000
 
     elif opcode == 0x13:
         RegWrite = 1
@@ -67,7 +67,12 @@ def decode_instruction(instruction: int):
         ResultSrc = 0
         ImmSrc = 0
 
-        ALUControl = 0b0010   # ADD
+        if funct3 == 0x0:
+            ALUControl = 0b0010
+        elif funct3 == 0x3:
+            ALUControl = 0b0101
+        else:
+            raise SimulatorError("Unsupported I-type funct3")
 
     elif opcode == 0x03:
         RegWrite = 1
@@ -85,28 +90,27 @@ def decode_instruction(instruction: int):
         ImmSrc = 1
         ResultSrc = 0
 
-        ALUControl = 0b0010   # ADD
+        ALUControl = 0b0010
 
-    elif opcode == 0x63:  # B-type instructions
+    elif opcode == 0x63:
         RegWrite = 0
-        ALUSrc = 0        # Branches compare two registers (rs1, rs2)
+        ALUSrc = 0
         MemWrite = 0
-        ImmSrc = 2        # B-type immediate decoding
-        ResultSrc = 0     # Not writing to registers, so ResultSrc is technically 'don't care'
+        ImmSrc = 2
+        ResultSrc = 0
 
-        # Map funct3 to ALUControl operations
-        if funct3 == 0x0:      # beq: check if rs1 - rs2 == 0
-            ALUControl = 0b0110 # SUB
-        elif funct3 == 0x1:    # bne: check if rs1 - rs2 != 0
-            ALUControl = 0b0110 # SUB (Logic handled by PCSrc logic outside decode)
-        elif funct3 == 0x4:    # blt: rs1 < rs2 (signed)
-            ALUControl = 0b0100 # SLT (Set Less Than)
-        elif funct3 == 0x5:    # bge: rs1 >= rs2 (signed)
-            ALUControl = 0b0100 # SLT (If SLT returns 0, then rs1 >= rs2)
-        elif funct3 == 0x6:    # bltu: rs1 < rs2 (unsigned)
-            ALUControl = 0b0101 # SLTU (Set Less Than Unsigned)
-        elif funct3 == 0x7:    # bgeu: rs1 >= rs2 (unsigned)
-            ALUControl = 0b0101 # SLTU
+        if funct3 == 0x0:
+            ALUControl = 0b0110
+        elif funct3 == 0x1:
+            ALUControl = 0b0110
+        elif funct3 == 0x4:
+            ALUControl = 0b0100
+        elif funct3 == 0x5:
+            ALUControl = 0b0100
+        elif funct3 == 0x6:
+            ALUControl = 0b0101
+        elif funct3 == 0x7:
+            ALUControl = 0b0101
         else:
             raise SimulatorError(f"Unsupported B-type funct3: {hex(funct3)}")
 
@@ -117,7 +121,7 @@ def decode_instruction(instruction: int):
         ImmSrc = 3
         PCsrc = 1
 
-        ALUControl = 0b0010   # ADD
+        ALUControl = 0b0010
 
     elif opcode == 0x67:
         RegWrite = 1
@@ -126,21 +130,21 @@ def decode_instruction(instruction: int):
         ImmSrc = 0
         PCsrc = 1
 
-        ALUControl = 0b0010   # ADD
+        ALUControl = 0b0010
 
     elif opcode == 0x37:
         RegWrite = 1
-        ALUSrc = 1      # Use immediate
+        ALUSrc = 1
         MemWrite = 0
-        ImmSrc = 4      # New ImmSrc type for U-type (20-bit)
-        ResultSrc = 0   # Take the result from the ALU/Path
-        ALUControl = 0b1010 # New ALU operation: LUI_COPY (just pass Imm through)
+        ImmSrc = 4
+        ResultSrc = 0
+        ALUControl = 0b1010
 
     elif opcode == 0x17:
         RegWrite = 1
-        ALUSrc = 1      # Use immediate
+        ALUSrc = 1
         MemWrite = 0
-        ImmSrc = 4      # U-type
+        ImmSrc = 4
         ResultSrc = 0 
         ALUControl = 0b0010
 

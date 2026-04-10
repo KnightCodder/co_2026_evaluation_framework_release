@@ -31,8 +31,6 @@ def ImmExt(inst: int, ImmSrc: int):
         combined   = bit31 | bits12_19 | bit20 | bits21_30
         return extending_sign(combined, 21)
     elif ImmSrc == 4:
-        mask = 0xFFFFF000
-        imm_val = inst & mask
-        return imm_val
+        return inst & 0xFFFFF000
     else:
         raise SimulatorError("Invalid ImmSrc")

@@ -39,8 +39,13 @@ try:
             # Fetch
             pc = getPC()
             instruction = read_memory(pc, 4)
-            if instruction == halt_instruction:
-                break
+            if opcode == 0x63 and funct3 == 0x0:
+                rs1 = (instruction >> 15) & 0x1F
+                rs2 = (instruction >> 20) & 0x1F
+                imm = immediate
+
+                if rs1 == 0 and rs2 == 0 and imm == 0:
+                    break
             
             PCPlus4 = pc + 4
             opcode = instruction & 0x7F
@@ -73,8 +78,8 @@ try:
             # Fix 2: Order matters. LUI/AUIPC use the immediate/ALU result directly.
             if opcode == 0x37:     # LUI
                 Result = immediate
-            elif opcode == 0x17:   # AUIPC
-                Result = ALUResult # (which is pc + imm)
+            elif opcode == 0x17:
+                Result = (pc + immediate) & 0xFFFFFFFF
             elif controls["ResultSrc"] == 1: # Load instructions
                 Result = read_memory(address=ALUResult, bytes=4)
             else:                  # Standard R/I type
