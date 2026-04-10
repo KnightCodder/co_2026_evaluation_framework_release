@@ -24,6 +24,12 @@ def registers_to_str():
         res += f" 0b{register:032b}"
     return res
 
+def registers_to_str_readable():
+    res = ""
+    for register in registers:
+        res += f" {register}"
+    return res
+
 def register_extract(instruction: int):
     rd2 = (instruction & 0x01F00000)>>20
     rd1 = (instruction & 0x000F8000)>>15

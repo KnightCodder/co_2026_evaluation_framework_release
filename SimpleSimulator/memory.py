@@ -85,14 +85,29 @@ def memory_to_str():
     res = ""
 
     for i in range(0, data_memory_size, 4):
-        bin = data_memory[i]
-        bin <<= 8
-        bin |= data_memory[i+1]
+        bin = data_memory[i+3]
         bin <<= 8
         bin |= data_memory[i+2]
         bin <<= 8
-        bin |= data_memory[i+3]
-        res += f"0x{(0x1000+i):08X}" + ":" + f"0b{bin:032b}" + "\n"
+        bin |= data_memory[i+1]
+        bin <<= 8
+        bin |= data_memory[i]
+        res += f"0x{(0x10000+i):08X}" + ":" + f"0b{bin:032b}" + "\n"
+
+    return res
+    
+def memory_to_str_readable():
+    res = ""
+
+    for i in range(0, data_memory_size, 4):
+        bin = data_memory[i+3]
+        bin <<= 8
+        bin |= data_memory[i+2]
+        bin <<= 8
+        bin |= data_memory[i+1]
+        bin <<= 8
+        bin |= data_memory[i]
+        res += f"0x{(0x10000+i):08X}" + ":" + f"0x{bin:08X}" + "\n"
 
     return res
     

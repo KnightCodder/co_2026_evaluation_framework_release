@@ -1,72 +1,54 @@
-sub x31, x0, x31
-add x31, x31, x31
-
-sub x0, x0, x0
-
-add x1, x2, x3
-
-sub x10, x11, x12
-
-sll x5, x6, x7
-
-srl x8, x9, x10
-
-
-
-slt x14, x15, x16
-
-sltu x17, x18, x19
-
-xor x20, x21, x22
-
-or x23, x24, x25
-
-addi x1, x0, 1
-
-addi x1, x1, -1
-
-addi x31, x31, 2047
-
-addi x10, x11, -2048
-
-
-lw x1, 4(x2)
-
-
-
-sw x1, 0(x2)
-
-
-
-sw x0, 1024(x10)
-
-beq x1, x2, 0
-
-
-
-bltu x9, x10, -4096
-
-bgeu x11, x12, 2048
-lui x10, 0x00000
-
-lui x31, 0xFFFFF
-
-auipc x5, 0x7FFFF
-
-auipc x1, 0x00001
-jal x1, 0
-
-jal x0, 4
-
-jal x31, -4
-
-jal x5, 1048572
-
-jal x10, -1048576
-beq x0, x31, -2048
-and x26, x27, x28
-addi x1, x1, -1
-sw x31, -2048(x2)
-bne x1, x2, -4
-lui x10, 0x7FFFF
-jal x1, -4
+addi t0, x0, 10
+addi t1, x0, -5
+addi t2, x0, 0
+lui x4, 0x12345
+auipc x5, 0x2
+add x6, x1, x2
+sub x7, x1, x2
+sll x8, x1, x6
+slt x9, x2, x1
+sltu x10, x2, x1
+xor x11, x1, x2
+srl x12, x8, x6
+or x14, x1, x2
+and x15, x1, x2
+addi x16, x0, 0x7FF
+addi x17, x16, 1
+sltiu x18, x1, 0x7FF
+add x21, x0, gp
+sw x1, 0(x21)
+sw t2, 4(x21)
+sw x4, 8(x21)
+lw x22, 0(x21)
+lw x23, 4(x21)
+lw x24, 8(x21)
+beq x1, x1, label_eq
+addi t3, x3, 1
+label_eq:
+bne x1, x2, label_ne
+addi t3, x3, 1
+label_ne:
+blt x2, x1, label_lt
+addi t3, x3, 1
+label_lt:
+bge x1, x2, label_ge
+addi t3, x3, 1
+label_ge:
+bltu x1, x2, label_ltu
+addi t3, x3, 1
+label_ltu:
+bgeu x2, x1, label_geu
+addi t3, x3, 1
+label_geu:
+jal x25, jump_target
+addi t3, x3, 1
+jump_target:
+addi x26, x25, 4
+jalr x27, x26, 0
+addi t3, x3, 20
+addi x28, x0, 10
+loop:
+addi x28, x28, -1
+bne x28, x0, loop
+add x0, x1, x2
+addi x0, x0, 100

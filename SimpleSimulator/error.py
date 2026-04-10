@@ -1,3 +1,3 @@
 class SimulatorError(Exception):
     def __init__(self, message):
-        super().__init__(f"Error: {message}")
+        super().__init__(f"{message}")

@@ -22,5 +22,7 @@ def ALU(SrcA: int, SrcB: int, ALUControl: int):
         return SrcA|SrcB
     elif ALUControl==0b0000: 
         return SrcA&SrcB
+    elif ALUControl == 0b1010:  # LUI (Pass-through SrcB)
+        return SrcB & mask
     else:
         raise SimulatorError("invalid ALU control")

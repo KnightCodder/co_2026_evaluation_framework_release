@@ -87,14 +87,28 @@ def decode_instruction(instruction: int):
 
         ALUControl = 0b0010   # ADD
 
-    elif opcode == 0x63:
+    elif opcode == 0x63:  # B-type instructions
         RegWrite = 0
-        ALUSrc = 0
+        ALUSrc = 0        # Branches compare two registers (rs1, rs2)
         MemWrite = 0
-        ImmSrc = 2
+        ImmSrc = 2        # B-type immediate decoding
+        ResultSrc = 0     # Not writing to registers, so ResultSrc is technically 'don't care'
 
-        if funct3 == 0x0:   # beq
-            ALUControl = 0b0110
+        # Map funct3 to ALUControl operations
+        if funct3 == 0x0:      # beq: check if rs1 - rs2 == 0
+            ALUControl = 0b0110 # SUB
+        elif funct3 == 0x1:    # bne: check if rs1 - rs2 != 0
+            ALUControl = 0b0110 # SUB (Logic handled by PCSrc logic outside decode)
+        elif funct3 == 0x4:    # blt: rs1 < rs2 (signed)
+            ALUControl = 0b0100 # SLT (Set Less Than)
+        elif funct3 == 0x5:    # bge: rs1 >= rs2 (signed)
+            ALUControl = 0b0100 # SLT (If SLT returns 0, then rs1 >= rs2)
+        elif funct3 == 0x6:    # bltu: rs1 < rs2 (unsigned)
+            ALUControl = 0b0101 # SLTU (Set Less Than Unsigned)
+        elif funct3 == 0x7:    # bgeu: rs1 >= rs2 (unsigned)
+            ALUControl = 0b0101 # SLTU
+        else:
+            raise SimulatorError(f"Unsupported B-type funct3: {hex(funct3)}")
 
     elif opcode == 0x6F:
         RegWrite = 1
@@ -113,6 +127,22 @@ def decode_instruction(instruction: int):
         PCsrc = 1
 
         ALUControl = 0b0010   # ADD
+
+    elif opcode == 0x37:
+        RegWrite = 1
+        ALUSrc = 1      # Use immediate
+        MemWrite = 0
+        ImmSrc = 4      # New ImmSrc type for U-type (20-bit)
+        ResultSrc = 0   # Take the result from the ALU/Path
+        ALUControl = 0b1010 # New ALU operation: LUI_COPY (just pass Imm through)
+
+    elif opcode == 0x17:
+        RegWrite = 1
+        ALUSrc = 1      # Use immediate
+        MemWrite = 0
+        ImmSrc = 4      # U-type
+        ResultSrc = 0 
+        ALUControl = 0b0010
 
     else:
         raise SimulatorError("Unsupported instruction")
